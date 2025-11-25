@@ -1,4 +1,4 @@
-import { Box, useGLTF } from "@react-three/drei";
+import { useGLTF } from "@react-three/drei";
 import { StaticCollider } from "bvhecctrl";
 
 export const Colliders = () => {
