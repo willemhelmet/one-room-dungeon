@@ -2,6 +2,7 @@ import { useMemo, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { PointerLockControls } from "@react-three/drei";
 import { characterStatus } from "bvhecctrl";
+import { Vector3 } from "three";
 
 import { SparkRenderer } from "./SparkRenderer.ts";
 import { Splat } from "./Splat.tsx";
@@ -17,14 +18,19 @@ export const Scene = () => {
   const camera = useThree((state) => state.camera);
 
   useEffect(() => {
-    // Set the initial rotation of the camera
-    camera.rotation.y = Math.PI * 0.5;
+    // Add the offset to the current position
+    camera.position.add(new Vector3(0, 1.8, 0));
+    camera.rotation.set(0, Math.PI * 0.5, 0);
   }, [camera]);
 
   useFrame(() => {
     // Update camera position to follow the player
     camera.position.copy(characterStatus.position);
-    camera.position.y += 0.8; // Eye level offset
+    camera.position.set(
+      camera.position.x,
+      camera.position.y + 0.8,
+      camera.position.z,
+    );
   });
 
   return (
