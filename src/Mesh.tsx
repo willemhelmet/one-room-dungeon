@@ -1,4 +1,3 @@
-import { RigidBody } from "@react-three/rapier";
 import { useGLTF } from "@react-three/drei";
 import { useControls } from "leva";
 export const Mesh = () => {
@@ -18,8 +17,7 @@ export const Mesh = () => {
   });
   return (
     <>
-      {/* <RigidBody type="fixed" colliders="trimesh" position={position}> */}
-      <group scale={scale} visible={visible}>
+      <group position={position} scale={scale} visible={visible}>
         <primitive object={gltf.scene} />/
       </group>
     </>
