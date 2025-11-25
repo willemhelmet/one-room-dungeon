@@ -2,7 +2,7 @@ import { useGLTF } from "@react-three/drei";
 import { StaticCollider } from "bvhecctrl";
 
 export const Colliders = () => {
-  const gltf = useGLTF("/teleportation-colliders.glb");
+  const gltf = useGLTF("teleportation-colliders.glb");
   return (
     <>
       <StaticCollider>

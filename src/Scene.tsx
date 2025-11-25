@@ -47,7 +47,7 @@ export const Scene = () => {
       {/* <Mesh /> */}
 
       <SparkRenderer args={[sparkRendererArgs]}>
-        <Splat url="/one-page-dungeon.sog" />
+        <Splat url="one-page-dungeon.sog" />
       </SparkRenderer>
     </>
   );
