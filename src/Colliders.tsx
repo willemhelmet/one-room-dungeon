@@ -10,9 +10,6 @@ export const Colliders = () => {
           <primitive object={gltf.scene} visible={false} />
         </group>
       </StaticCollider>
-      <StaticCollider position={[0, -3, 0]}>
-        <Box args={[40, 0.1, 40]} />
-      </StaticCollider>
     </>
   );
 };
