@@ -1,7 +1,16 @@
+import { useEffect } from "react";
 import { Joystick, VirtualButton, useButtonStore } from "bvhecctrl";
+
 export const MobileControls = () => {
-  const { buttons } = useButtonStore.getState();
-  console.log(buttons.transition); // true or false
+  const isTransitionPressed = useButtonStore(
+    (state) => state.buttons["transition"],
+  );
+
+  useEffect(() => {
+    if (isTransitionPressed) {
+      console.log("transition triggered");
+    }
+  }, [isTransitionPressed]);
   return (
     <>
       <Joystick />

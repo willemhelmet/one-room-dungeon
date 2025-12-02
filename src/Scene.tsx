@@ -1,6 +1,6 @@
 import { useMemo, useEffect } from "react";
 import { useThree } from "@react-three/fiber";
-import { PointerLockControls, useKeyboardControls } from "@react-three/drei";
+import { useKeyboardControls } from "@react-three/drei";
 
 import { SparkRenderer } from "./SparkRenderer.ts";
 import { Splat } from "./Splat.tsx";
@@ -34,7 +34,6 @@ export const Scene = ({ started }: SceneProps) => {
     <>
       <Colliders />
       <color attach="background" args={[0, 0, 0]} />
-      {started && <PointerLockControls />}
       <perspectiveCamera />
       <Player paused={!started} />
       <SparkRenderer args={[sparkRendererArgs]}>

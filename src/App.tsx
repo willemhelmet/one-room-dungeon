@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import { KeyboardControls, Stats, Loader } from "@react-three/drei";
+import {
+  CameraControls,
+  KeyboardControls,
+  Loader,
+  PointerLockControls,
+} from "@react-three/drei";
 import { Scene } from "./Scene.tsx";
 import { MobileControls } from "./MobileControls.tsx";
 import { PlayButton } from "./PlayButton.tsx";
@@ -31,14 +36,18 @@ function App() {
             gl={{ antialias: false }}
             dpr={1}
             camera={{
-              position: [14, -1.5, 0],
+              position: [4, -0.6, 0],
               rotation: [0, Math.PI * 0.5, 0],
             }}
           >
             <Scene started={started} />
+            {!isMobile ? (
+              <PointerLockControls selector="#playButton" />
+            ) : (
+              <CameraControls smoothTime={0} />
+            )}
           </Canvas>
         </KeyboardControls>
-        <Stats />
         <Loader />
         {isMobile && started && <MobileControls />}
       </div>
