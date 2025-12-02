@@ -1,11 +1,11 @@
 import { useMemo } from "react";
 import { SplatMesh } from "@sparkjsdev/spark";
 
-export interface SplatType {
+export interface SplatProps {
   url: string;
 }
 
-export const Splat = ({ url }: SplatType) => {
+export const Splat = ({ url }: SplatProps) => {
   const splat = useMemo(() => {
     const splatMesh = new SplatMesh({
       url: url,

@@ -1,17 +1,13 @@
 import BVHEcctrl from "bvhecctrl";
-import { useEffect } from "react";
 import { useThree, useFrame } from "@react-three/fiber";
-import { Vector3 } from "three";
 import { characterStatus } from "bvhecctrl";
 
-export const Player = () => {
-  const camera = useThree((state) => state.camera);
+interface PlayerProps {
+  paused: boolean;
+}
 
-  useEffect(() => {
-    // Add the offset to the current position
-    camera.position.add(new Vector3(0, 1.8, 0));
-    camera.rotation.set(0, Math.PI * 0.5, 0);
-  }, [camera]);
+export const Player = ({ paused }: PlayerProps) => {
+  const camera = useThree((state) => state.camera);
 
   useFrame(() => {
     // Update camera position to follow the player
@@ -23,5 +19,5 @@ export const Player = () => {
     );
   });
 
-  return <BVHEcctrl position={[4, -1.5, 0]} />;
+  return <BVHEcctrl paused={paused} />;
 };

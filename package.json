@@ -15,7 +15,6 @@
   "dependencies": {
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.4.0",
-    "@react-three/xr": "^6.6.28",
     "@sparkjsdev/spark": "^0.1.10",
     "@tailwindcss/vite": "^4.1.17",
     "bvhecctrl": "^0.0.18",
