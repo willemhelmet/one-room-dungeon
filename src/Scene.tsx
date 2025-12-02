@@ -35,16 +35,10 @@ export const Scene = () => {
 
   return (
     <>
-      <axesHelper />
-
       <Player />
       <PointerLockControls />
 
       <Colliders />
-
-      <directionalLight />
-      <ambientLight />
-      {/* <Mesh /> */}
 
       <SparkRenderer args={[sparkRendererArgs]}>
         <Splat url="one-page-dungeon.sog" />
