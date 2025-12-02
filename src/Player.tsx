@@ -1,24 +1,27 @@
-import { KeyboardControls, Capsule } from "@react-three/drei";
 import BVHEcctrl from "bvhecctrl";
-
-const keyboardMap = [
-  { name: "forward", keys: ["ArrowUp", "KeyW"] },
-  { name: "backward", keys: ["ArrowDown", "KeyS"] },
-  { name: "leftward", keys: ["ArrowLeft", "KeyA"] },
-  { name: "rightward", keys: ["ArrowRight", "KeyD"] },
-  { name: "jump", keys: ["Space"] },
-  { name: "run", keys: ["Shift"] },
-];
+import { useEffect } from "react";
+import { useThree, useFrame } from "@react-three/fiber";
+import { Vector3 } from "three";
+import { characterStatus } from "bvhecctrl";
 
 export const Player = () => {
-  return (
-    <KeyboardControls map={keyboardMap}>
-      <BVHEcctrl position={[4, -1.5, 0]}>
-        {/* Invisible character model for BVHEcctrl to control */}
-        <Capsule args={[0.3, 0.7, 4, 8]} visible={false}>
-          <meshStandardMaterial color="white" />
-        </Capsule>
-      </BVHEcctrl>
-    </KeyboardControls>
-  );
+  const camera = useThree((state) => state.camera);
+
+  useEffect(() => {
+    // Add the offset to the current position
+    camera.position.add(new Vector3(0, 1.8, 0));
+    camera.rotation.set(0, Math.PI * 0.5, 0);
+  }, [camera]);
+
+  useFrame(() => {
+    // Update camera position to follow the player
+    camera.position.copy(characterStatus.position);
+    camera.position.set(
+      camera.position.x,
+      camera.position.y + 0.8,
+      camera.position.z,
+    );
+  });
+
+  return <BVHEcctrl position={[4, -1.5, 0]} />;
 };

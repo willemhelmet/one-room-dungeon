@@ -1,14 +1,15 @@
+import { useState } from "react";
 import { Canvas } from "@react-three/fiber";
+import {
+  KeyboardControls,
+  Stats,
+  Loader,
+  PointerLockControls,
+} from "@react-three/drei";
 import { Scene } from "./Scene.tsx";
-import { Stats, Loader } from "@react-three/drei";
-import { Joystick } from "bvhecctrl";
-import { XR, createXRStore } from "@react-three/xr";
-import { useState } from "react"; // Removed useEffect
-
-const store = createXRStore();
+import { MobileControls } from "./MobileControls.tsx";
 
 function App() {
-  // Initialize state lazily to avoid extra render and fix lint error
   const [isMobile] = useState(() => {
     // Check for touch support only once on initial render
     const hasTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
@@ -16,19 +17,25 @@ function App() {
   });
 
   return (
-    <>
-      <div className="flex h-screen w-screen">
+    <div className="flex h-screen w-screen">
+      <KeyboardControls
+        map={[
+          { name: "forward", keys: ["ArrowUp", "KeyW"] },
+          { name: "backward", keys: ["ArrowDown", "KeyS"] },
+          { name: "leftward", keys: ["ArrowLeft", "KeyA"] },
+          { name: "rightward", keys: ["ArrowRight", "KeyD"] },
+          { name: "transition", keys: ["Space"] },
+        ]}
+      >
         <Canvas gl={{ antialias: false }} dpr={1}>
-          <XR store={store}>
-            <Scene />
-            <color attach="background" args={[0, 0, 0]} />
-          </XR>
+          <Scene />
+          {!isMobile && <PointerLockControls />}
         </Canvas>
-        <Stats />
-        <Loader />
-        {isMobile && <Joystick />} {/* Conditionally render Joystick */}
-      </div>
-    </>
+      </KeyboardControls>
+      <Stats />
+      <Loader />
+      {isMobile && <MobileControls />}
+    </div>
   );
 }
 
