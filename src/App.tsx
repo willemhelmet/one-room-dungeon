@@ -41,11 +41,9 @@ function App() {
             }}
           >
             <Scene started={started} />
-            {!isMobile ? (
-              <PointerLockControls selector="#playButton" />
-            ) : (
-              <CameraControls smoothTime={0} />
-            )}
+            {!isMobile && !started && <PointerLockControls selector="#playButton" />}
+            {!isMobile && started && <PointerLockControls />}
+            {isMobile && <CameraControls smoothTime={0} />}
           </Canvas>
         </KeyboardControls>
         <Loader />
