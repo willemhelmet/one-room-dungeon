@@ -1,6 +1,6 @@
 import { dyno } from "@sparkjsdev/spark";
 
-export const testDyno = new dyno.Dyno({
+export const TransitionDyno = new dyno.Dyno({
   inTypes: {
     gsplat: dyno.Gsplat,
     origin: "vec3",

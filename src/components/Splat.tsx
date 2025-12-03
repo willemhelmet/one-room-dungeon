@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { SplatMesh } from "@sparkjsdev/spark";
 import { dyno } from "@sparkjsdev/spark";
-import { testDyno } from "../dyno/TransitionDyno.ts";
+import { TransitionDyno } from "../dyno/TransitionDyno.ts";
 
 export interface SplatProps {
   url: string;
@@ -27,7 +27,7 @@ export const Splat = ({
         { gsplat: dyno.Gsplat },
         { gsplat: dyno.Gsplat },
         ({ gsplat }) => {
-          gsplat = testDyno.apply({
+          gsplat = TransitionDyno.apply({
             gsplat: gsplat,
             origin: origin,
             transitionProgress: transitionProgress,

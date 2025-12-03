@@ -5,6 +5,7 @@ import { Vector3 } from "three";
 import { dyno } from "@sparkjsdev/spark";
 import { characterStatus } from "bvhecctrl";
 import { gsap } from "gsap";
+import { useControls } from "leva";
 
 import { SparkRenderer } from "./SparkRenderer.ts";
 import { Splat } from "./Splat.tsx";
@@ -82,7 +83,7 @@ export const Scene = ({ started }: SceneProps) => {
       <Colliders />
       <perspectiveCamera />
       <Player paused={!started} debug={false} />
-      <color attach="background" args={[0, 0, 0]} />
+      {/* <color attach="background" args={[0, 0, 0]} /> */}
       <SparkRenderer args={[sparkRendererArgs]}>
         {splatUrls.map((url, myIndex) => (
           <Splat
