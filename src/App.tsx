@@ -6,9 +6,9 @@ import {
   Loader,
   PointerLockControls,
 } from "@react-three/drei";
-import { Scene } from "./Scene.tsx";
-import { MobileControls } from "./MobileControls.tsx";
-import { PlayButton } from "./PlayButton.tsx";
+import { Scene } from "./components/Scene.tsx";
+import { MobileControls } from "./components/MobileControls.tsx";
+import { PlayButton } from "./components/PlayButton.tsx";
 
 function App() {
   const [isMobile] = useState(() => {
