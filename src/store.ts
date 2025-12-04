@@ -18,6 +18,7 @@ interface State {
   setOrigin: (newOrigin: Vector3) => void;
   transitionProgress: number;
   setTransitionProgress: (progress: number) => void;
+  isMobile: boolean;
 }
 
 export const useMyStore = create<State>((set) => ({
@@ -30,10 +31,8 @@ export const useMyStore = create<State>((set) => ({
     set({ activeSplatIndex: newIndex }),
   showingIndex: 1,
   hidingIndex: 0,
-  // splatUrls: ["one-page-dungeon-1.sog", "one-page-dungeon-2.sog"],
   setShowingIndex: (newIndex: number) => set({ showingIndex: newIndex }),
   setHidingIndex: (newIndex: number) => set({ hidingIndex: newIndex }),
-  // setActiveSplatIndex: set((state) => ({ state.activeSplatIndex })),
   pause: () => set(() => ({ isPaused: true })),
   resume: () => set(() => ({ isPaused: false })),
   origin: new Vector3(0, 0, 0),
@@ -41,4 +40,5 @@ export const useMyStore = create<State>((set) => ({
   transitionProgress: 0.0,
   setTransitionProgress: (progress: number) =>
     set({ transitionProgress: progress }),
+  isMobile: "ontouchstart" in window || navigator.maxTouchPoints > 0,
 }));
