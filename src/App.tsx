@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import {
   CameraControls,
@@ -7,16 +6,12 @@ import {
   PointerLockControls,
 } from "@react-three/drei";
 import { Scene } from "./components/Scene.tsx";
-import { MobileControls } from "./components/MobileControls.tsx";
+import { Input } from "./components/Input.tsx";
 import { PlayButton } from "./components/PlayButton.tsx";
 import { useMyStore } from "./store.ts";
 
 function App() {
-  const [isMobile] = useState(() => {
-    // Check for touch support only once on initial render
-    const hasTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
-    return hasTouch;
-  });
+  const isMobile = useMyStore((state) => state.isMobile);
 
   const isStarted = useMyStore((state) => state.isStarted);
 
@@ -34,6 +29,7 @@ function App() {
             { name: "pause", keys: ["Escape"] },
           ]}
         >
+          <Input />
           <Canvas
             gl={{ antialias: false }}
             dpr={1}
@@ -51,7 +47,6 @@ function App() {
           </Canvas>
         </KeyboardControls>
         <Loader />
-        {isMobile && isStarted && <MobileControls />}
       </div>
     </>
   );

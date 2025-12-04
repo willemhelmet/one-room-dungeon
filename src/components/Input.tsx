@@ -1,13 +1,15 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { useKeyboardControls } from "@react-three/drei";
 import { useMyStore } from "../store.ts";
-import { characterStatus } from "bvhecctrl";
+import { characterStatus, useButtonStore } from "bvhecctrl";
 import { gsap } from "gsap";
+import { MobileControls } from "./MobileControls.tsx";
 
 export const Input = () => {
   const [sub] = useKeyboardControls();
 
   const isStarted = useMyStore((state) => state.isStarted);
+  const isMobile = useMyStore((state) => state.isMobile);
   const splatUrls = useMyStore((state) => state.splatUrls);
   const activeSplat = useMyStore((state) => state.activeSplatIndex);
   const setActiveSplat = useMyStore((state) => state.setActiveSplatIndex);
@@ -32,45 +34,62 @@ export const Input = () => {
     );
   }, [sub, isStarted]);
 
-  // handle transition button event
+  // Combined transition handler
+  const handleTransition = useCallback(() => {
+    if (isStarted) {
+      // need to divide by 2 because splat is scaled by 2, see Splat.tsx
+      setOrigin(characterStatus.position.clone().divideScalar(2));
+
+      const nextActiveSplat = (activeSplat + 1) % splatUrls.length;
+      setHidingIndex(activeSplat);
+      setShowingIndex(nextActiveSplat);
+
+      gsap.killTweensOf(transitionProgressRef.current);
+      transitionProgressRef.current.value = 0;
+      setTransitionProgress(0);
+      gsap.to(transitionProgressRef.current, {
+        value: 1,
+        duration: 2.5,
+        ease: "power1.inOut",
+        onUpdate: () => {
+          setTransitionProgress(transitionProgressRef.current.value);
+        },
+      });
+      setActiveSplat(nextActiveSplat);
+    }
+  }, [
+    isStarted,
+    activeSplat,
+    splatUrls.length,
+    setHidingIndex,
+    setShowingIndex,
+    setOrigin,
+    setTransitionProgress,
+    setActiveSplat,
+  ]);
+
+  // Keyboard listener
   useEffect(() => {
     return sub(
       (state) => state.transition,
       (pressed) => {
-        if (pressed && isStarted) {
-          // need to divide by 2 because splat is scaled by 2, see Splat.tsx
-          setOrigin(characterStatus.position.clone().divideScalar(2));
-
-          const nextActiveSplat = (activeSplat + 1) % splatUrls.length;
-          setHidingIndex(activeSplat);
-          setShowingIndex(nextActiveSplat);
-
-          gsap.killTweensOf(transitionProgressRef.current);
-          transitionProgressRef.current.value = 0;
-          setTransitionProgress(0);
-          gsap.to(transitionProgressRef.current, {
-            value: 1,
-            duration: 2.5,
-            ease: "power1.inOut",
-            onUpdate: () => {
-              setTransitionProgress(transitionProgressRef.current.value);
-            },
-          });
-          setActiveSplat(nextActiveSplat);
-        }
+        if (pressed) handleTransition();
       },
     );
-  }, [
-    sub,
-    isStarted,
-    activeSplat,
-    setOrigin,
-    splatUrls.length,
-    setTransitionProgress,
-    setHidingIndex,
-    setShowingIndex,
-    setActiveSplat,
-  ]);
+  }, [sub, handleTransition]);
 
-  return <></>;
+  // Mobile button listener
+  const isTransitionPressed = useButtonStore(
+    (state) => state.buttons["transition"],
+  );
+  const wasTransitionPressed = useRef(false);
+
+  useEffect(() => {
+    if (isTransitionPressed && !wasTransitionPressed.current) {
+      handleTransition();
+    }
+    wasTransitionPressed.current = isTransitionPressed;
+  }, [isTransitionPressed, handleTransition]); // Add handleTransition to deps
+
+  return <>{isMobile && isStarted && <MobileControls />}</>;
 };

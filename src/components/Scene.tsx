@@ -6,7 +6,6 @@ import { Splat } from "./Splat.tsx";
 import { Colliders } from "./Colliders.tsx";
 import { Player } from "./Player.tsx";
 import { useMyStore } from "../store.ts";
-import { Input } from "./Input.tsx";
 
 export const Scene = () => {
   // three and spark renderer
@@ -20,7 +19,6 @@ export const Scene = () => {
 
   return (
     <>
-      <Input />
       <Colliders />
       <perspectiveCamera />
       <Player />
@@ -33,4 +31,3 @@ export const Scene = () => {
     </>
   );
 };
-
