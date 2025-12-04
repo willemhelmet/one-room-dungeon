@@ -1,4 +1,4 @@
-import { useMyStore } from "../dyno/store";
+import { useMyStore } from "../store";
 
 export const PlayButton = () => {
   const start = useMyStore((state) => state.start);

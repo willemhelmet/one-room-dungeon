@@ -6,8 +6,10 @@ interface State {
   start: () => void;
   isPaused: boolean;
   activeSplatIndex: number;
+  setActiveSplatIndex: (index: number) => void;
   showingIndex: number;
   hidingIndex: number;
+  splatUrls: string[];
   setShowingIndex: (newIndex: number) => void;
   setHidingIndex: (newIndex: number) => void;
   pause: () => void;
@@ -23,6 +25,9 @@ export const useMyStore = create<State>((set) => ({
   start: () => set(() => ({ isStarted: true, isPaused: false })),
   isPaused: true,
   activeSplatIndex: 0,
+  splatUrls: ["one-page-dungeon-1.sog", "one-page-dungeon-2.sog"],
+  setActiveSplatIndex: (newIndex: number) =>
+    set({ activeSplatIndex: newIndex }),
   showingIndex: 1,
   hidingIndex: 0,
   // splatUrls: ["one-page-dungeon-1.sog", "one-page-dungeon-2.sog"],

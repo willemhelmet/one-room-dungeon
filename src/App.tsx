@@ -9,7 +9,7 @@ import {
 import { Scene } from "./components/Scene.tsx";
 import { MobileControls } from "./components/MobileControls.tsx";
 import { PlayButton } from "./components/PlayButton.tsx";
-import { useMyStore } from "./dyno/store.ts";
+import { useMyStore } from "./store.ts";
 
 function App() {
   const [isMobile] = useState(() => {
