@@ -1,8 +1,8 @@
 import { useMemo, useEffect } from "react";
 import { SplatMesh } from "@sparkjsdev/spark";
 import { dyno } from "@sparkjsdev/spark";
-import { TransitionDyno } from "../dyno/TransitionDyno.ts";
-import { useMyStore } from "../dyno/store.ts";
+import { TransitionDyno } from "../spark/TransitionDyno.ts";
+import { useMyStore } from "../store.ts";
 
 export interface SplatProps {
   url: string;
