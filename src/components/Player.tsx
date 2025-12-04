@@ -1,14 +1,12 @@
 import BVHEcctrl from "bvhecctrl";
 import { useThree, useFrame } from "@react-three/fiber";
 import { characterStatus } from "bvhecctrl";
+import { useMyStore } from "../store.ts";
 
-interface PlayerProps {
-  paused: boolean;
-  debug: boolean;
-}
-
-export const Player = ({ paused, debug }: PlayerProps) => {
+export const Player = () => {
   const camera = useThree((state) => state.camera);
+  const isStarted = useMyStore((state) => state.isStarted);
+  const paused = !isStarted;
 
   useFrame(() => {
     if (!paused) {
@@ -22,5 +20,5 @@ export const Player = ({ paused, debug }: PlayerProps) => {
     }
   });
 
-  return <BVHEcctrl position={[4, -1.4, 0]} debug={debug} paused={paused} />;
+  return <BVHEcctrl position={[4, -1.4, 0]} debug={false} paused={paused} />;
 };

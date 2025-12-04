@@ -18,14 +18,12 @@ export const Scene = () => {
   // splats
   const splatUrls = useMyStore((state) => state.splatUrls);
 
-  const isStarted = useMyStore((state) => state.isStarted);
-
   return (
     <>
       <Input />
       <Colliders />
       <perspectiveCamera />
-      <Player paused={!isStarted} debug={false} />
+      <Player />
       {/* <color attach="background" args={[0, 0, 0]} /> */}
       <SparkRenderer args={[sparkRendererArgs]}>
         {splatUrls.map((url, myIndex) => (
