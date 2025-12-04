@@ -9,6 +9,7 @@ import {
 import { Scene } from "./components/Scene.tsx";
 import { MobileControls } from "./components/MobileControls.tsx";
 import { PlayButton } from "./components/PlayButton.tsx";
+import { useMyStore } from "./dyno/store.ts";
 
 function App() {
   const [isMobile] = useState(() => {
@@ -17,11 +18,11 @@ function App() {
     return hasTouch;
   });
 
-  const [started, setStarted] = useState(false);
+  const isStarted = useMyStore((state) => state.isStarted);
 
   return (
     <>
-      {!started && <PlayButton setStarted={setStarted} />}
+      {!isStarted && <PlayButton />}
       <div className="flex h-screen w-screen">
         <KeyboardControls
           map={[
@@ -30,6 +31,7 @@ function App() {
             { name: "leftward", keys: ["ArrowLeft", "KeyA"] },
             { name: "rightward", keys: ["ArrowRight", "KeyD"] },
             { name: "transition", keys: ["Space"] },
+            { name: "pause", keys: ["Escape"] },
           ]}
         >
           <Canvas
@@ -40,14 +42,16 @@ function App() {
               rotation: [0, Math.PI * 0.5, 0],
             }}
           >
-            <Scene started={started} />
-            {!isMobile && !started && <PointerLockControls selector="#playButton" />}
-            {!isMobile && started && <PointerLockControls />}
+            <Scene />
+            {!isMobile && !isStarted && (
+              <PointerLockControls selector="#playButton" />
+            )}
+            {!isMobile && isStarted && <PointerLockControls />}
             {isMobile && <CameraControls smoothTime={0} />}
           </Canvas>
         </KeyboardControls>
         <Loader />
-        {isMobile && started && <MobileControls />}
+        {isMobile && isStarted && <MobileControls />}
       </div>
     </>
   );
