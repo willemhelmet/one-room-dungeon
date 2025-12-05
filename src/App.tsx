@@ -13,11 +13,8 @@ import { MobileControls } from "./components/MobileControls.tsx";
 
 function App() {
   const isMobile = useMyStore((state) => state.isMobile);
-
   const status = useMyStore((state) => state.status);
-
   const pause = useMyStore((state) => state.pause);
-
   const resume = useMyStore((state) => state.resume);
 
   const handleUnlock = () => {
@@ -38,37 +35,23 @@ function App() {
         <KeyboardControls
           map={[
             { name: "forward", keys: ["ArrowUp", "KeyW"] },
-
             { name: "backward", keys: ["ArrowDown", "KeyS"] },
-
             { name: "leftward", keys: ["ArrowLeft", "KeyA"] },
-
             { name: "rightward", keys: ["ArrowRight", "KeyD"] },
-
             { name: "transition", keys: ["Space"] },
-
-                        { name: "pause", keys: ["Escape"] },
-
-                      ]}
-
-                    >
-
-                      {isMobile && status === "playing" && <MobileControls />}
-
-                      <Canvas
-
-                        gl={{ antialias: false }}
-
-                        dpr={1}
-
-                        camera={{
+            { name: "pause", keys: ["Escape"] },
+          ]}
+        >
+          {isMobile && status === "playing" && <MobileControls />}
+          <Canvas
+            gl={{ antialias: false }}
+            dpr={1}
+            camera={{
               position: [4, -0.6, 0],
-
               rotation: [0, Math.PI * 0.5, 0],
             }}
           >
             <Scene />
-
             {!isMobile && (
               <PointerLockControls
                 selector="#playButton"
@@ -76,7 +59,6 @@ function App() {
                 onLock={handleLock}
               />
             )}
-
             {isMobile && <CameraControls smoothTime={0} />}
           </Canvas>
         </KeyboardControls>
