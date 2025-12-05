@@ -5,7 +5,7 @@ import { useMyStore } from "../store/store.ts";
 import { characterStatus, useButtonStore } from "bvhecctrl";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
-import { Vector2, Raycaster, Vector3, Mesh } from "three";
+import { Vector2, Raycaster, Mesh } from "three";
 
 export const TransitionController = () => {
   const { camera, scene } = useThree();
@@ -70,28 +70,36 @@ export const TransitionController = () => {
             setHidingIndex(activeSplat);
             setShowingIndex(nextActiveSplat);
             setActiveSplat(nextActiveSplat);
-            
+
             // Reset transition value for the tween
             transitionProgressRef.current.value = 0;
             setTransitionProgress(0);
           })
 
           // 4. Shrink Projectile + Expand Shader (Parallel)
-          .to(projectileRef.current.scale, {
-            x: 0,
-            y: 0,
-            z: 0,
-            duration: 0.2,
-          }, "impact") // Label 'impact' to run together
-          .to(transitionProgressRef.current, {
-            value: 1,
-            duration: 2.5,
-            ease: "power1.inOut",
-            onUpdate: () => {
-              setTransitionProgress(transitionProgressRef.current.value);
+          .to(
+            projectileRef.current.scale,
+            {
+              x: 0,
+              y: 0,
+              z: 0,
+              duration: 0.2,
             },
-          }, "impact")
-          
+            "impact",
+          ) // Label 'impact' to run together
+          .to(
+            transitionProgressRef.current,
+            {
+              value: 1,
+              duration: 2.5,
+              ease: "power1.inOut",
+              onUpdate: () => {
+                setTransitionProgress(transitionProgressRef.current.value);
+              },
+            },
+            "impact",
+          )
+
           // 5. Cleanup
           .set(projectileRef.current, { visible: false });
       }
@@ -99,7 +107,7 @@ export const TransitionController = () => {
     { dependencies: [origin] }, // Re-run whenever origin changes
   );
 
-  // Trigger Logic (Just sets Origin)
+  // LMB/Space Trigger Logic (Just sets Origin)
   const fire = useCallback(() => {
     if (status === "playing") {
       raycaster.current.setFromCamera(new Vector2(0, 0), camera);
@@ -107,9 +115,7 @@ export const TransitionController = () => {
         scene.children,
         true,
       );
-      const hit = intersects.find(
-        (i) => i.object.name === "teleport-collider",
-      );
+      const hit = intersects.find((i) => i.object.name === "teleport-collider");
 
       if (hit) {
         // This will trigger the useGSAP hook
@@ -118,7 +124,7 @@ export const TransitionController = () => {
     }
   }, [status, camera, scene, setOrigin]);
 
-  // Inputs
+  // Mobile Virtual Button Input Event
   useEffect(() => {
     return sub(
       (state) => state.transition,
@@ -156,4 +162,3 @@ export const TransitionController = () => {
     </mesh>
   );
 };
-

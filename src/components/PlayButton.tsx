@@ -28,7 +28,7 @@ export const PlayButton = () => {
                 <span className="font-bold">W, A, S, D</span> to Move
               </li>
               <li>
-                <span className="font-bold">Space</span> to Transition
+                <span className="font-bold">Space / LMB</span> to Transition
               </li>
               <li>
                 <span className="font-bold">Esc</span> to Pause
