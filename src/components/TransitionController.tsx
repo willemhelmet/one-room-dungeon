@@ -26,6 +26,15 @@ export const TransitionController = () => {
   const transitionProgressRef = useRef({ value: 0 });
   const raycaster = useRef(new Raycaster());
   const projectileRef = useRef<Mesh>(null);
+  const colliderRef = useRef<Mesh | null>(null);
+
+  // Cache the collider mesh
+  useEffect(() => {
+    const collider = scene.getObjectByName("teleport-collider");
+    if (collider && (collider as Mesh).isMesh) {
+      colliderRef.current = collider as Mesh;
+    }
+  }, [scene]);
 
   // Master Animation Timeline
   useGSAP(
@@ -107,22 +116,22 @@ export const TransitionController = () => {
     { dependencies: [origin] }, // Re-run whenever origin changes
   );
 
-  // LMB/Space Trigger Logic (Just sets Origin)
+  // Trigger Logic (Just sets Origin)
   const fire = useCallback(() => {
-    if (status === "playing") {
+    if (status === "playing" && colliderRef.current) {
       raycaster.current.setFromCamera(new Vector2(0, 0), camera);
-      const intersects = raycaster.current.intersectObjects(
-        scene.children,
-        true,
+      const intersects = raycaster.current.intersectObject(
+        colliderRef.current,
+        false, // No recursion needed if it's the mesh itself
       );
-      const hit = intersects.find((i) => i.object.name === "teleport-collider");
-
-      if (hit) {
+      
+      if (intersects.length > 0) {
+        const hit = intersects[0];
         // This will trigger the useGSAP hook
         setOrigin(hit.point.clone().divideScalar(2));
       }
     }
-  }, [status, camera, scene, setOrigin]);
+  }, [status, camera, setOrigin]);
 
   // Mobile Virtual Button Input Event
   useEffect(() => {
