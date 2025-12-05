@@ -1,8 +1,10 @@
 import { useMyStore } from "../store";
 
 export const PlayButton = () => {
-  const start = useMyStore((state) => state.start);
   const isMobile = useMyStore((state) => state.isMobile);
+  const status = useMyStore((state) => state.status);
+
+  const buttonText = status === "intro" ? "Click to Start" : "Resume";
 
   return (
     <>
@@ -10,9 +12,8 @@ export const PlayButton = () => {
         <button
           id="playButton"
           className="px-8 py-4 text-xl font-bold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none cursor-pointer"
-          onClick={start}
         >
-          Click to Start
+          {buttonText}
         </button>
         <div className="text-center max-w-md px-4">
           <h2 className="text-lg font-semibold mb-2">Controls</h2>

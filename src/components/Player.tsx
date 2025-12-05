@@ -5,8 +5,8 @@ import { useMyStore } from "../store.ts";
 
 export const Player = () => {
   const camera = useThree((state) => state.camera);
-  const isStarted = useMyStore((state) => state.isStarted);
-  const paused = !isStarted;
+  const status = useMyStore((state) => state.status);
+  const paused = status !== "playing";
 
   useFrame(() => {
     if (!paused) {

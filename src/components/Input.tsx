@@ -8,7 +8,7 @@ import { MobileControls } from "./MobileControls.tsx";
 export const Input = () => {
   const [sub] = useKeyboardControls();
 
-  const isStarted = useMyStore((state) => state.isStarted);
+  const status = useMyStore((state) => state.status);
   const isMobile = useMyStore((state) => state.isMobile);
   const splatUrls = useMyStore((state) => state.splatUrls);
   const activeSplat = useMyStore((state) => state.activeSplatIndex);
@@ -22,21 +22,11 @@ export const Input = () => {
 
   const transitionProgressRef = useRef({ value: 0 });
 
-  // handle escape button event
-  useEffect(() => {
-    return sub(
-      (state) => state.pause,
-      (pressed) => {
-        if (pressed && !isStarted) {
-          console.log("pause");
-        }
-      },
-    );
-  }, [sub, isStarted]);
+  const pause = useMyStore((state) => state.pause);
 
   // Combined transition handler
   const handleTransition = useCallback(() => {
-    if (isStarted) {
+    if (status === "playing") {
       // need to divide by 2 because splat is scaled by 2, see Splat.tsx
       setOrigin(characterStatus.position.clone().divideScalar(2));
 
@@ -58,7 +48,7 @@ export const Input = () => {
       setActiveSplat(nextActiveSplat);
     }
   }, [
-    isStarted,
+    status,
     activeSplat,
     splatUrls.length,
     setHidingIndex,
@@ -91,5 +81,6 @@ export const Input = () => {
     wasTransitionPressed.current = isTransitionPressed;
   }, [isTransitionPressed, handleTransition]); // Add handleTransition to deps
 
-  return <>{isMobile && isStarted && <MobileControls />}</>;
+  return <>{isMobile && status === "playing" && <MobileControls />}</>;
 };
+

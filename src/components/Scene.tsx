@@ -17,6 +17,8 @@ export const Scene = () => {
   // splats
   const splatUrls = useMyStore((state) => state.splatUrls);
 
+  const status = useMyStore((state) => state.status);
+
   return (
     <>
       <Colliders />

@@ -2,9 +2,8 @@ import { create } from "zustand";
 import { Vector3 } from "three";
 
 interface State {
-  isStarted: boolean;
+  status: "intro" | "playing" | "paused";
   start: () => void;
-  isPaused: boolean;
   activeSplatIndex: number;
   setActiveSplatIndex: (index: number) => void;
   showingIndex: number;
@@ -22,9 +21,8 @@ interface State {
 }
 
 export const useMyStore = create<State>((set) => ({
-  isStarted: false,
-  start: () => set(() => ({ isStarted: true, isPaused: false })),
-  isPaused: true,
+  status: "intro",
+  start: () => set(() => ({ status: "playing" })),
   activeSplatIndex: 0,
   splatUrls: ["one-page-dungeon-1.sog", "one-page-dungeon-2.sog"],
   setActiveSplatIndex: (newIndex: number) =>
@@ -33,8 +31,8 @@ export const useMyStore = create<State>((set) => ({
   hidingIndex: 0,
   setShowingIndex: (newIndex: number) => set({ showingIndex: newIndex }),
   setHidingIndex: (newIndex: number) => set({ hidingIndex: newIndex }),
-  pause: () => set(() => ({ isPaused: true })),
-  resume: () => set(() => ({ isPaused: false })),
+  pause: () => set(() => ({ status: "paused" })),
+  resume: () => set(() => ({ status: "playing" })),
   origin: new Vector3(0, 0, 0),
   setOrigin: (newOrigin: Vector3) => set({ origin: newOrigin }),
   transitionProgress: 0.0,
