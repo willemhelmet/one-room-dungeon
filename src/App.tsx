@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import {
   CameraControls,
@@ -15,99 +14,65 @@ import { useMyStore } from "./store.ts";
 function App() {
   const isMobile = useMyStore((state) => state.isMobile);
 
-    const status = useMyStore((state) => state.status);
+  const status = useMyStore((state) => state.status);
 
-    const pause = useMyStore((state) => state.pause);
+  const pause = useMyStore((state) => state.pause);
 
-    const resume = useMyStore((state) => state.resume);
+  const resume = useMyStore((state) => state.resume);
 
-  
+  const handleUnlock = () => {
+    if (status === "playing") {
+      pause();
+    }
+  };
 
-    const handleUnlock = () => {
+  const handleLock = () => {
+    resume();
+  };
 
-      if (status === "playing") {
+  return (
+    <>
+      {status !== "playing" && <PlayButton />}
 
-        pause();
+      <div className="flex h-screen w-screen">
+        <KeyboardControls
+          map={[
+            { name: "forward", keys: ["ArrowUp", "KeyW"] },
 
-      }
+            { name: "backward", keys: ["ArrowDown", "KeyS"] },
 
-    };
+            { name: "leftward", keys: ["ArrowLeft", "KeyA"] },
 
-  
+            { name: "rightward", keys: ["ArrowRight", "KeyD"] },
 
-    const handleLock = () => {
+            { name: "transition", keys: ["Space"] },
 
-      resume();
+            { name: "pause", keys: ["Escape"] },
+          ]}
+        >
+          <Input />
 
-    };
+          <Canvas
+            gl={{ antialias: false }}
+            dpr={1}
+            camera={{
+              position: [4, -0.6, 0],
 
-  
-
-    return (
-
-      <>
-
-        {status !== "playing" && <PlayButton />}
-
-        <div className="flex h-screen w-screen">
-
-          <KeyboardControls
-
-            map={[
-
-              { name: "forward", keys: ["ArrowUp", "KeyW"] },
-
-              { name: "backward", keys: ["ArrowDown", "KeyS"] },
-
-              { name: "leftward", keys: ["ArrowLeft", "KeyA"] },
-
-              { name: "rightward", keys: ["ArrowRight", "KeyD"] },
-
-              { name: "transition", keys: ["Space"] },
-
-              { name: "pause", keys: ["Escape"] },
-
-            ]}
-
+              rotation: [0, Math.PI * 0.5, 0],
+            }}
           >
+            <Scene />
 
-            <Input />
+            {!isMobile && (
+              <PointerLockControls
+                selector="#playButton"
+                onUnlock={handleUnlock}
+                onLock={handleLock}
+              />
+            )}
 
-            <Canvas
-
-              gl={{ antialias: false }}
-
-              dpr={1}
-
-              camera={{
-
-                position: [4, -0.6, 0],
-
-                rotation: [0, Math.PI * 0.5, 0],
-
-              }}
-
-            >
-
-              <Scene />
-
-              {!isMobile && (
-
-                <PointerLockControls
-
-                  selector="#playButton"
-
-                  onUnlock={handleUnlock}
-
-                  onLock={handleLock}
-
-                />
-
-              )}
-
-              {isMobile && <CameraControls smoothTime={0} />}
-
-            </Canvas>
+            {isMobile && <CameraControls smoothTime={0} />}
+          </Canvas>
         </KeyboardControls>
         <Loader />
         {/* <Stats /> */}

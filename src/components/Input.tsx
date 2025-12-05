@@ -22,8 +22,6 @@ export const Input = () => {
 
   const transitionProgressRef = useRef({ value: 0 });
 
-  const pause = useMyStore((state) => state.pause);
-
   // Combined transition handler
   const handleTransition = useCallback(() => {
     if (status === "playing") {
