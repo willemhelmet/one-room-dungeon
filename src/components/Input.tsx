@@ -1,6 +1,6 @@
 import { useEffect, useRef, useCallback } from "react";
 import { useKeyboardControls } from "@react-three/drei";
-import { useMyStore } from "../store.ts";
+import { useMyStore } from "../store/store.ts";
 import { characterStatus, useButtonStore } from "bvhecctrl";
 import { gsap } from "gsap";
 import { MobileControls } from "./MobileControls.tsx";

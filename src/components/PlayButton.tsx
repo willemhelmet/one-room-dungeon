@@ -1,4 +1,4 @@
-import { useMyStore } from "../store";
+import { useMyStore } from "../store/store.ts";
 
 export const PlayButton = () => {
   const isMobile = useMyStore((state) => state.isMobile);

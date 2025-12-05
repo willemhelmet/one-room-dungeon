@@ -5,7 +5,7 @@ import { SparkRenderer } from "../spark/SparkRenderer.ts";
 import { Splat } from "./Splat.tsx";
 import { Colliders } from "./Colliders.tsx";
 import { Player } from "./Player.tsx";
-import { useMyStore } from "../store.ts";
+import { useMyStore } from "../store/store.ts";
 
 export const Scene = () => {
   // three and spark renderer

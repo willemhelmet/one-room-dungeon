@@ -1,7 +1,7 @@
 import BVHEcctrl from "bvhecctrl";
 import { useThree, useFrame } from "@react-three/fiber";
 import { characterStatus } from "bvhecctrl";
-import { useMyStore } from "../store.ts";
+import { useMyStore } from "../store/store.ts";
 
 export const Player = () => {
   const camera = useThree((state) => state.camera);

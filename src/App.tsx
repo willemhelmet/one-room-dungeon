@@ -9,7 +9,7 @@ import {
 import { Scene } from "./components/Scene.tsx";
 import { Input } from "./components/Input.tsx";
 import { PlayButton } from "./components/PlayButton.tsx";
-import { useMyStore } from "./store.ts";
+import { useMyStore } from "./store/store.ts";
 
 function App() {
   const isMobile = useMyStore((state) => state.isMobile);
