@@ -3,6 +3,16 @@ import { useMyStore } from "../store/store.ts";
 export const PlayButton = () => {
   const isMobile = useMyStore((state) => state.isMobile);
   const status = useMyStore((state) => state.status);
+  const start = useMyStore((state) => state.start);
+  const resume = useMyStore((state) => state.resume);
+
+  const handleClick = () => {
+    if (status === "intro") {
+      start();
+    } else {
+      resume();
+    }
+  };
 
   const buttonText = status === "intro" ? "Click to Start" : "Resume";
 
@@ -12,6 +22,7 @@ export const PlayButton = () => {
         <button
           id="playButton"
           className="px-8 py-4 text-xl font-bold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none cursor-pointer"
+          onClick={handleClick}
         >
           {buttonText}
         </button>
