@@ -157,8 +157,8 @@ export const TransitionController = () => {
 
   return (
     <mesh ref={projectileRef} visible={false} frustumCulled={false}>
-      <sphereGeometry args={[0.1]} />
-      <meshBasicMaterial color="yellow" />
+      <sphereGeometry args={[0.05]} />
+      <meshBasicMaterial color="white" />
     </mesh>
   );
 };
