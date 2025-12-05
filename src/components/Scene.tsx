@@ -6,6 +6,7 @@ import { Splat } from "./Splat.tsx";
 import { Colliders } from "./Colliders.tsx";
 import { Player } from "./Player.tsx";
 import { useMyStore } from "../store/store.ts";
+import { TransitionController } from "./TransitionController.tsx";
 
 export const Scene = () => {
   // three and spark renderer
@@ -22,6 +23,7 @@ export const Scene = () => {
       <Colliders />
       <perspectiveCamera />
       <Player />
+      <TransitionController />
       {/* <color attach="background" args={[0, 0, 0]} /> */}
       <SparkRenderer args={[sparkRendererArgs]}>
         {splatUrls.map((url, myIndex) => (

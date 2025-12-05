@@ -7,9 +7,9 @@ import {
   // Stats,
 } from "@react-three/drei";
 import { Scene } from "./components/Scene.tsx";
-import { Input } from "./components/Input.tsx";
 import { PlayButton } from "./components/PlayButton.tsx";
 import { useMyStore } from "./store/store.ts";
+import { MobileControls } from "./components/MobileControls.tsx";
 
 function App() {
   const isMobile = useMyStore((state) => state.isMobile);
@@ -47,15 +47,21 @@ function App() {
 
             { name: "transition", keys: ["Space"] },
 
-            { name: "pause", keys: ["Escape"] },
-          ]}
-        >
-          <Input />
+                        { name: "pause", keys: ["Escape"] },
 
-          <Canvas
-            gl={{ antialias: false }}
-            dpr={1}
-            camera={{
+                      ]}
+
+                    >
+
+                      {isMobile && status === "playing" && <MobileControls />}
+
+                      <Canvas
+
+                        gl={{ antialias: false }}
+
+                        dpr={1}
+
+                        camera={{
               position: [4, -0.6, 0],
 
               rotation: [0, Math.PI * 0.5, 0],
